@@ -1,2 +1,30 @@
-node_modules
-Dockerfile
+
+
+# Node / npm
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build outputs
+build/
+dist/
+.next/
+
+# Env / secrets
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Docker
+*.log
+Dockerfile.*  # if you have variants, but usually keep main Dockerfile
+# (do NOT ignore Dockerfile or .dockerignore themselves)
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
