@@ -19,7 +19,8 @@ Docker Installation: --> briefly mention if you installed Docker via script or m
 * Progress Tracking
 I am documenting my journey through the workshop modules below:
 
-*[ ] Part 1: Containerize an application
+> [!TIP] 
+> Part 1: Containerize an application
   1. Fork the repository rather than cloning, as this avoids the need to push back from the server
      <img width="902" height="208" alt="unknown" src="https://github.com/user-attachments/assets/ffcf4ee6-cc6a-456c-b660-dd579f9cd3b7" />
   2. After forking the repository, clone it inside the VM.
@@ -49,7 +50,8 @@ I am documenting my journey through the workshop modules below:
     - Exit: Press Control + X to return to the command line.
      
   4. Build the Image. Once the file is saved, use the following command to build your Docker image:
-     <pre> docker build -t getting-started . </pre>
+     ```bash docker build -t getting-started .```
+     
   Result:
   
   <img width="1600" height="1269" alt="unknown" src="https://github.com/user-attachments/assets/edcc4487-5bc2-401e-81a9-f624b5ad6ffb" />  
@@ -63,7 +65,8 @@ I am documenting my journey through the workshop modules below:
   <img width="1600" height="228" alt="cloud-adain@vaubuntu-getting-started-app$ docker ps" src="https://github.com/user-attachments/assets/fa04e3d0-db6b-445c-90a3-f2989b380fbf" />
 
 
-*[ ] Part 2: Update the application (Update the source code)
+> [!TIP] 
+> Part 2: Update the application (Update the source code)
   1. nano src/static/js/app.js
      ```- <p className="text-center">No items yet! Add one above!</p>```
     ```+ <p className="text-center">You have no todo items yet! Add one above!</p>```
@@ -80,6 +83,7 @@ I am documenting my journey through the workshop modules below:
      
   <img width="1600" height="358" alt="unknown" src="https://github.com/user-attachments/assets/6ebddbdf-6724-4993-989b-1e711e3cd00b" />
 
+  > [!Note]
   > The old container is currently running and is using the host’s port 3000. Only one process on the machine (including containers) can listen to a specific port. Therefore, the old container must be removed to resolve   this   issue.
   
   5. Remove a container 
@@ -91,7 +95,8 @@ I am documenting my journey through the workshop modules below:
       - Visit the app on http://34.88.40.199:8080
   <img width="1600" height="992" alt="You have no todo items yet! Add one above" src="https://github.com/user-attachments/assets/db138060-843e-4b5b-94a4-7a144bb4e916" />
 
-*[ ] Part 3: Share the application (Docker Hub)
+> [!TIP] 
+> Part 3: Share the application (Docker Hub)
   - Connecting via SSH
   - Open your terminal to SSH into the VM.
   > Note: Since this is an ephemeral VM, restarting it will change the External IP Address. Always check for the new IP in the Google Cloud console before connecting.
@@ -126,6 +131,10 @@ I am documenting my journey through the workshop modules below:
       Visit the app: http://<ip>
       
 <img width="894" height="621" alt="unknown" src="https://github.com/user-attachments/assets/af95415b-2ad7-45aa-a0a7-acf0a43a7939" />
+
+
+> [!TIP] 
+> Part 4: Persists the DB
 
 > [!NOTE]
 > Once again we will map from port 8080 on the host and will not restrict traffic to the localhost as we will run this on our Google servers.
@@ -176,6 +185,54 @@ I am documenting my journey through the workshop modules below:
 > A lot of people frequently ask "Where is Docker storing my data when I use a volume?" If you want to know, you can use the docker volume inspect command.
 <img width="973" height="331" alt="ras na 50-278-2638 ," src="https://github.com/user-attachments/assets/ecc4b3db-abbc-4bff-8d90-02ebc64582ca" />
 
-[ ] Part 4: Persists the DB (The container's filesystem)
+> [!TIP]
+> Part 5: Use bind mounts
+> [!Note]
+> A bind mount is another type of mount, which lets you share a directory from the host's filesystem into the container. When working on an application, you can use a bind mount to mount source code into the container.
+> The container sees the changes you make to the code immediately, as soon as you save a file. This means that you can run processes in the container that watch for filesystem changes and respond to them.
+> [!Warning]
+> Note: Skip the "File Sharing" Setting instruction is strictly for Windows/Mac users. On your Ubuntu VM, Docker has native access to the filesystem. No need to check any GUI settings or "turn on" sharing.
+1. Ensure you are currently inside the app directory:
+<img width="577" height="158" alt="unknown" src="https://github.com/user-attachments/assets/e59794f0-2079-47d9-b418-20d9ab52dc7c" />
 
-[ ] Part 5: Persisting our DB (Volumes)
+2. Perform the "Trying out bind mounts”. Run the following command to start bash in an ubuntu container with a bind mount. Inside the VM:
+   ```bash docker run -it --mount type=bind,src=.,target=/src ubuntu bash```
+<img width="893" height="225" alt="unknown" src="https://github.com/user-attachments/assets/f0e9ab98-51cf-4442-ac25-81c3f18602a6" />
+
+3. Change directory to the src directory.
+4. Create a new file named myfile.txt.
+
+<img width="893" height="167" alt="root@6baf041ebcefarcarct cd arc" src="https://github.com/user-attachments/assets/a888eb04-73a0-4520-ba6a-2cf90f89e5ff" />
+
+5. Open the getting-started-app directory on the host and observe that the myfile.txt file is in the directory.
+    Exit the container type: exit
+    On GCP VM terminal, type: ls
+   
+<img width="893" height="119" alt="unknown" src="https://github.com/user-attachments/assets/fa1a3aa9-b966-459a-a804-37f79ca25669" />
+
+6. From the host, delete the myfile.txt file. (Item 8 from docker workshop). From the gcp vm terminal, run: rm myfile.txt
+
+<img width="893" height="217" alt="unknown" src="https://github.com/user-attachments/assets/b1b6f64d-a587-4dfd-a968-b9a4e957b61b" />
+
+7. In the container, list the contents of the app directory once more.
+   Run command: docker run -it --rm --mount type=bind,src=.,target=/src ubuntu bash
+   
+<img width="893" height="217" alt="unknown" src="https://github.com/user-attachments/assets/22fa8eb1-f220-43fd-8a64-251a7880e4b0" />
+
+> [!Note]
+> >In the container, list the contents of the app directory once more. Observe that the file is now gone.
+
+<img width="743" height="73" alt="unknown" src="https://github.com/user-attachments/assets/2d34db3d-e566-4ae5-9c9c-92064f1e0fc5" />
+
+Stop the interactive container session with Ctrl + D.
+> [!Note] This procedure demonstrated how files are shared between the host and the container, and how changes are immediately reflected on both sides.
+> Now you can use bind mounts to develop software.
+
+> [!TIP]
+> Part 5: Multi container apps
+
+
+
+
+> [!TIP]
+> Part 5: Persisting our DB (Volumes)
