@@ -324,4 +324,78 @@ In the following steps, you'll create the network first and then attach the MySQ
 
 
 > [!TIP]
-> Part 7: Use Docker Compose 
+> Part 7: Use Docker Compose
+
+> [!Note]
+> Docker Compose is a tool that helps you define and share multi-container applications. With Compose, you can create a YAML file to define the services and with a single command,
+> you can spin everything up or tear it all down.
+
+**Create the Compose file**
+
+- In the getting-started-app directory, create a file named compose.yaml.
+- Ensure the vm terminal is in getting-started-app
+- Then: nano compose.yaml
+- As per workshop: Define this service in the compose.yaml file.
+
+<img width="785" height="691" alt="unknown" src="https://github.com/user-attachments/assets/acdb8283-5b6a-4200-8ef5-6a6a65939880" />
+
+- Save and exit: Ctrl O and then Enter to save, Ctrl X 
+- Verify compose.yaml is created and save: ls and nano compose.yaml
+
+**Just a note from compose.yaml**
+
+<img width="679" height="542" alt="unknown" src="https://github.com/user-attachments/assets/755ca7ea-9d25-4afe-b9b8-de6f76d305ce" />
+
+1. Launch thr stack:
+> [!Note:]
+> If there are existing containers, networks, or ports still running in the background, they may cause conflicts when starting the workshop setup.
+> Before continuing, make sure no other copies of the containers are   running. Use:
+
+- docker ps to list currently running containers
+- docker rm -f <container_id> to stop and remove any that are running
+- Run this command: docker rm -f <node-id> <mysql-id>
+
+<img width="898" height="125" alt="unknown" src="https://github.com/user-attachments/assets/67aba7df-7c82-44c3-9ecd-547057666491" />
+
+2. Start up the application stack using the docker compose up command. Add the -d flag to run everything in the background.
+docker compose up -d
+
+<img width="898" height="184" alt="unknown" src="https://github.com/user-attachments/assets/b9b24d46-74b3-4133-8914-6faed4adcf5a" />
+
+3. Look at the logs using the docker compose logs -f command. You'll see the logs from each of the services interleaved into a single stream. This is incredibly useful when you want to watch for timing-related issues. The -f flag follows the log, so will give you live output as it's generated.
+
+<img width="898" height="737" alt="nysql-1" src="https://github.com/user-attachments/assets/0768ed88-23b1-4e17-a275-d82ea8e14554" />
+
+4. At this point, you should be able to open your app in your browser on http://<ip> and see it running.
+
+<img width="621" height="344" alt="unknown" src="https://github.com/user-attachments/assets/fffdd138-0540-4995-ab43-54a5e8e9744a" />
+
+
+Finally, push your code to Github
+
+First: ssh-keygen -t ed25519 -C "your-github-email@example.com"
+
+Having an error:
+
+<img width="872" height="424" alt="unknown" src="https://github.com/user-attachments/assets/46353e15-4374-4649-8dbd-e7784a033adf" />
+
+To fix error, pull the changes from GitHub
+git pull origin main
+
+<img width="872" height="351" alt="unknown" src="https://github.com/user-attachments/assets/59e64794-2ef1-43c3-8a00-a78a1ea58272" />
+
+Now: git push origin main (Need to ssh again on my github for some reason)
+
+<img width="718" height="962" alt="unknown" src="https://github.com/user-attachments/assets/cfc76892-cf50-4f6a-bf69-92bb665851b6" />
+
+It's on github now! Thank you!
+
+**Tear it all down
+When you're ready to tear it all down, simply run docker compose down or hit the trash can on the Docker Desktop Dashboard for the entire app. 
+The containers will stop and the network will be removed.**
+
+
+
+
+
+
