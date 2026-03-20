@@ -67,7 +67,7 @@ Inside the VM to install Docker from https://docs.docker.com/engine/install/ubun
 
 Proceed to workshop
 https://docs.docker.com/get-started/workshop/02_our_app/
-See on setup from <add link here >
+See on setup from (https://github.com/diovsset/getting-started-app/blob/main/workshop.md)
 
 
 
