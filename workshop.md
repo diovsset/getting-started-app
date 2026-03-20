@@ -231,7 +231,7 @@ Stop the interactive container session with Ctrl + D.
 > Now you can use bind mounts to develop software.
 
 > [!TIP]
-> Part 5: Multi container apps
+> Part 6: Multi container apps
 
 > [!Note]
 > Container networking
@@ -324,4 +324,4 @@ In the following steps, you'll create the network first and then attach the MySQ
 
 
 > [!TIP]
-> Part 6: Use Docker Compose 
+> Part 7: Use Docker Compose 
