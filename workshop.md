@@ -220,19 +220,108 @@ I am documenting my journey through the workshop modules below:
 <img width="893" height="217" alt="unknown" src="https://github.com/user-attachments/assets/22fa8eb1-f220-43fd-8a64-251a7880e4b0" />
 
 > [!Note]
-> >In the container, list the contents of the app directory once more. Observe that the file is now gone.
+> In the container, list the contents of the app directory once more. Observe that the file is now gone.
 
 <img width="743" height="73" alt="unknown" src="https://github.com/user-attachments/assets/2d34db3d-e566-4ae5-9c9c-92064f1e0fc5" />
 
 Stop the interactive container session with Ctrl + D.
-> [!Note] This procedure demonstrated how files are shared between the host and the container, and how changes are immediately reflected on both sides.
+
+> [!Note]
+> This procedure demonstrated how files are shared between the host and the container, and how changes are immediately reflected on both sides.
 > Now you can use bind mounts to develop software.
 
 > [!TIP]
 > Part 5: Multi container apps
 
+> [!Note]
+> Container networking
+> Remember that containers, by default, run in isolation and don't know anything about other processes or containers on the same machine.
+> So, how do you allow one container to talk to another? The answer is networking. If you place the two containers on the same network, they can talk to each other.
 
+**Start MySQL**
+
+There are two ways to put a container on a network:
+Assign the network when starting the container.
+Connect an already running container to a network.
+In the following steps, you'll create the network first and then attach the MySQL container at startup.
+1. Create the network.
+  In gcp terminal, run command: docker network create todo-app
+
+<img width="865" height="52" alt="unknown" src="https://github.com/user-attachments/assets/60cfb78e-ad05-4dd4-9fc2-7b67da6dbf04" />
+
+2. Now, run this long command to start the database.
+   
+   ```bash
+   docker run -d \
+    --network todo-app --network-alias mysql \
+    -v todo-mysql-data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=secret \
+    -e MYSQL_DATABASE=todos \
+    mysql:8.0```
+
+<img width="886" height="631" alt="unknown" src="https://github.com/user-attachments/assets/a4d98185-168d-4ad6-96ac-429a0bbbbd90" />
+
+> [!Note]
+> Note to ensure database is actually running on your VM, type: docker ps
+> It should show a container using the mysql:8.0 image with a status of "Up."
+
+<img width="886" height="154" alt="unknown" src="https://github.com/user-attachments/assets/ba2161b8-6127-4fd7-842a-639fbb0f296b" />
+
+3. To confirm you have the database up and running, connect to the database and verify that it connects.
+   
+  docker exec -it <mysql-container-id> mysql -p
+
+<img width="886" height="434" alt="unknown" src="https://github.com/user-attachments/assets/d0417411-4cc4-49ca-8122-a4ae323094ea" />
+
+  - When the password prompt comes up, type in secret. In the MySQL shell, list the databases and verify you see the todos database.
+  - From the command line: mysql> SHOW DATABASES;
+
+<img width="886" height="330" alt="unknown" src="https://github.com/user-attachments/assets/1d1cff15-332e-407e-8382-c292443e3ae0" />
+
+**Connect to MySQL**
+> [!Note]
+> We are going to use nicolaka/netshootcontainer, which ships with a lot of tools that are useful for troubleshooting or debugging networking issues.
+
+  1. Start a new container using the nicolaka/netshoot image. Make sure to connect it to the same network. ```bash docker run -it --network todo-app nicolaka/netshoot```
+  2. Inside the container, you're going to use the dig command, which is a useful DNS tool. You're going to look up the IP address for the hostname mysql.
+
+  <img width="886" height="930" alt="unknown" src="https://github.com/user-attachments/assets/d8833aad-2b0e-49cb-a545-a6e798f043af" />
+
+  3. To find IP Address: dig mysql
+
+  <img width="790" height="542" alt="unknown" src="https://github.com/user-attachments/assets/ca6ca27a-4c37-4dc8-8c23-45920cc31be0" />
+
+**You can now start your dev-ready container.**
+  1. Specify each of the previous environment variables, as well as connect the container to your app network.
+     Make sure that you are in the getting-started-app directory when you run this command.
+  Note: Ensure we are on 8080:3000
+
+  <img width="891" height="375" alt="unknown" src="https://github.com/user-attachments/assets/12968a80-712f-4947-abdc-bb856415882a" />
+
+  2. If you look at the logs for the container (docker logs -f <container-id>), you should see a message similar to the following, which indicates it's using the mysql database.
+     From the command line:  docker logs -f ee55
+
+  <img width="891" height="345" alt="unknown" src="https://github.com/user-attachments/assets/3a9cc7f9-f8c5-46a4-a183-87b2a128f6f0" />
+
+  3. Open the app in your browser and add a few items to your todo list. Visit: http://<ip>
+
+  <img width="745" height="416" alt="unknown" src="https://github.com/user-attachments/assets/41beb7f5-69bd-4c36-93fb-d6449313ff45" />
+  
+  4. Connect to the mysql database and prove that the items are being written to the database. Remember, the password is secret.
+     docker exec -it 39bd8baef51e mysql -p todos
+     
+  <img width="914" height="485" alt="unknown" src="https://github.com/user-attachments/assets/c1f85069-8f5d-4722-bd70-74742d2c1009" />
+
+  And in the mysql shell, run the following: mysql> select * from todo_items;
+
+  <img width="914" height="469" alt="unknown" src="https://github.com/user-attachments/assets/16aa58da-84fa-4852-b291-443432aa6ad5" />
+
+> [!Note]
+> Dev / local / testing → Feel free to use plain ENV vars (quick & easy).
+> Production → Switch to proper secrets management → mount as files → use the _FILE env vars if your image supports them.
+> This follows security best practices and reduces the chance of accidentally exposing credentials through logs, debugging, or compromised containers.
+> The blog post by Diogo Mónica is still considered a classic reference on this topic — it's worth reading if you want the full security rationale (it's short and very clear).
 
 
 > [!TIP]
-> Part 5: Persisting our DB (Volumes)
+> Part 6: Use Docker Compose 
