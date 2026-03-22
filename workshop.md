@@ -1,26 +1,36 @@
-* Docker Workshop: Getting Started
+# Docker Workshop: Getting Started
 
-* This repository is a personal fork of the Docker Getting Started App. It serves as a hands-on lab environment for completing the official Docker Workshop.
+This repository is a personal fork of the **Docker Getting Started App**, serving as a hands-on lab environment for completing the official Docker Workshop. It documents the deployment of containerized applications within a cloud-native infrastructure.
 
-Reference Material
-Official Workshop Guide: Docker Workshop Documentation
-Original Repository: docker/getting-started
+---
 
-* Prerequisites
-- Sign up to google cloud to get the student one
-- Environment: A dedicated Compute Engine VM running Ubuntu.
+##  Reference Material
+* **Official Workshop Guide:** [Docker Workshop Documentation](https://docs.docker.com/get-started/)
+* **Original Repository:** [docker/getting-started](https://github.com/docker/getting-started)
 
-* Deployment Steps
-VM Provisioning: Setup and configuration of the Ubuntu instance on GCP.
-Access Control: Configured SSH access for secure remote management.
-Note: For detailed steps on how the VM was configured, see my Create VM documentation via gcp
-Docker Installation: --> briefly mention if you installed Docker via script or manual commands here..
+##  Prerequisites & Environment
+* **Cloud Provider:** Google Cloud Platform (GCP) via the Student Credit program.
+* **Host OS:** Dedicated Compute Engine VM running **Ubuntu 22.04 LTS**.
+* **Hardware Instance:** `e2-medium` (or your specific machine type).
 
-* Progress Tracking
-I am documenting my journey through the workshop modules below:
+##  Deployment Steps
 
-> [!TIP] 
-> Part 1: Containerize an application
+### 1. VM Provisioning
+* Configured a Google Compute Engine (GCE) instance named `vmubuntu`.
+* **Access Control:** Established secure remote management via **SSH**.
+* **Documentation:** For specific firewall rules and instance settings, refer to my [GCP VM Setup Guide](./create-vm-gcp.md).
+
+### 2. Docker Installation
+* Installed Docker Engine and Docker Compose via the official [Docker repository script](https://get.docker.com/).
+* Verified installation using `docker --version` and `docker compose version`.
+
+### 3. Progress Tracking
+I am documenting my journey through the workshop modules below, specifically focusing on multi-container orchestration and persistent cloud deployments.
+### 📦 Part 1: Containerize an Application
+* **Action:** Created a `Dockerfile` to package the environment and dependencies.
+* **Key Learning:** Understood the difference between an **Image** (the blueprint) and a **Container** (the running instance).
+* **Command:** `docker build -t getting-started .`
+  
   1. Fork the repository rather than cloning, as this avoids the need to push back from the server
      <img width="902" height="208" alt="unknown" src="https://github.com/user-attachments/assets/ffcf4ee6-cc6a-456c-b660-dd579f9cd3b7" />
   2. After forking the repository, clone it inside the VM.
@@ -65,8 +75,10 @@ I am documenting my journey through the workshop modules below:
   <img width="1600" height="228" alt="cloud-adain@vaubuntu-getting-started-app$ docker ps" src="https://github.com/user-attachments/assets/fa04e3d0-db6b-445c-90a3-f2989b380fbf" />
 
 
-> [!TIP] 
-> Part 2: Update the application (Update the source code)
+### 🛠️ Part 2: Update the Application
+* **Action:** Modified the source code and updated the running container.
+* **Key Learning:** Learned that containers are immutable; to see changes, you must stop, remove, and rebuild the container.
+  
   1. nano src/static/js/app.js
      ```- <p className="text-center">No items yet! Add one above!</p>```
     ```+ <p className="text-center">You have no todo items yet! Add one above!</p>```
@@ -95,8 +107,11 @@ I am documenting my journey through the workshop modules below:
       - Visit the app on http://34.88.40.199:8080
   <img width="1600" height="992" alt="You have no todo items yet! Add one above" src="https://github.com/user-attachments/assets/db138060-843e-4b5b-94a4-7a144bb4e916" />
 
-> [!TIP] 
-> Part 3: Share the application (Docker Hub)
+### 💾 Part 3: Persist the Database
+* **Action:** Initialized a named **Volume** to store the Todo list data.
+* **Key Learning:** Discovered how to keep data alive even after a container is deleted by mapping an internal path to a Docker-managed volume.
+* **Command:** `docker run -v todo-db:/etc/todos ...`
+  
   - Connecting via SSH
   - Open your terminal to SSH into the VM.
   > Note: Since this is an ephemeral VM, restarting it will change the External IP Address. Always check for the new IP in the Google Cloud console before connecting.
@@ -133,8 +148,9 @@ I am documenting my journey through the workshop modules below:
 <img width="894" height="621" alt="unknown" src="https://github.com/user-attachments/assets/af95415b-2ad7-45aa-a0a7-acf0a43a7939" />
 
 
-> [!TIP] 
-> Part 4: Persists the DB
+### 📂 Part 4: Use Bind Mounts
+* **Action:** Used bind mounts to connect my VM's local filesystem to the container.
+* **Key Learning:** Used this for "hot-reloading" during development so changes reflect instantly without a full rebuild.
 
 > [!NOTE]
 > Once again we will map from port 8080 on the host and will not restrict traffic to the localhost as we will run this on our Google servers.
@@ -185,8 +201,10 @@ I am documenting my journey through the workshop modules below:
 > A lot of people frequently ask "Where is Docker storing my data when I use a volume?" If you want to know, you can use the docker volume inspect command.
 <img width="973" height="331" alt="ras na 50-278-2638 ," src="https://github.com/user-attachments/assets/ecc4b3db-abbc-4bff-8d90-02ebc64582ca" />
 
-> [!TIP]
-> Part 5: Use bind mounts
+### 🌐 Part 5: Multi-Container Apps
+* **Action:** Created a Docker Network to link a MySQL container with the App container.
+* **Key Learning:** Containers can communicate via **Service Names** within the same network, keeping the database isolated from the public internet.
+  
 > [!Note]
 > A bind mount is another type of mount, which lets you share a directory from the host's filesystem into the container. When working on an application, you can use a bind mount to mount source code into the container.
 > The container sees the changes you make to the code immediately, as soon as you save a file. This means that you can run processes in the container that watch for filesystem changes and respond to them.
@@ -230,8 +248,10 @@ Stop the interactive container session with Ctrl + D.
 > This procedure demonstrated how files are shared between the host and the container, and how changes are immediately reflected on both sides.
 > Now you can use bind mounts to develop software.
 
-> [!TIP]
-> Part 6: Multi container apps
+### 🏗️ Part 6: Use Docker Compose
+* **Action:** Consolidated all configurations into a single `docker-compose.yaml` file.
+* **Key Learning:** Orchestration allows for "Infrastructure as Code," making it easy to start the entire stack with one command.
+* **Command:** `docker compose up -d`
 
 > [!Note]
 > Container networking
@@ -322,9 +342,10 @@ In the following steps, you'll create the network first and then attach the MySQ
 > This follows security best practices and reduces the chance of accidentally exposing credentials through logs, debugging, or compromised containers.
 > The blog post by Diogo Mónica is still considered a classic reference on this topic — it's worth reading if you want the full security rationale (it's short and very clear).
 
-
-> [!TIP]
-> Part 7: Use Docker Compose
+### 🚀 Part 7: Deployment (GCP VM)
+* **Action:** Deployed the application on a Google Cloud Compute Engine instance.
+* **Key Learning:** Managed "Deployment Links" by configuring GCP Firewall rules (Port 8080) and handling dynamic External IP changes after VM restarts.
+* **Status:** Successfully verified via `curl http://localhost:8080` and external browser access.
 
 > [!Note]
 > Docker Compose is a tool that helps you define and share multi-container applications. With Compose, you can create a YAML file to define the services and with a single command,
@@ -388,7 +409,52 @@ Now: git push origin main (Need to ssh again on my github for some reason)
 
 <img width="718" height="962" alt="unknown" src="https://github.com/user-attachments/assets/cfc76892-cf50-4f6a-bf69-92bb665851b6" />
 
-It's on github now! Thank you!
+
+## Docker Workshop Overview
+The following steps outline the process to restore the multi-container environment after the GCP VM (`vmubuntu`) has been stopped. This procedure ensures the application defined in `docker-compose.yml` is correctly initialized and accessible.
+
+---
+
+## Step 1: Instance Initialization
+1.  **Start the VM:** Log in to the Google Cloud Console and start the `vmubuntu` instance.
+2.  **Identify External IP:** Note the newly generated **External IP address** (GCP typically assigns a new ephemeral IP upon restart).
+
+## Step 2: Establish SSH Connection
+Access the VM via your terminal or SSH client using the updated IP:
+```bash ssh <your-username>@<new-external-ip>```
+
+## Step 3: Deployment Multi-Container Application
+Access the VM via your terminal or SSH client using the updated IP:
+### Navigate to the project root
+cd ~/getting-started-app
+
+### Launch containers in detached mode
+docker compose up -d
+
+### Verify all containers are running (Status: Up)
+docker ps -a
+
+## Step 4: Verification & Deployment Links
+curl http://localhost:8080
+
+External Access: Open your local web browser and navigate to:
+http://<newexternal-ip>:8080
+
+<img width="931" height="348" alt="image" src="https://github.com/user-attachments/assets/9158a8aa-6d37-4de0-bb7e-4820dddcd3d2" />
+
+
+Note: Ensure that the GCP Firewall rules still allow incoming traffic on port 8080.
+
+<img width="962" height="276" alt="image" src="https://github.com/user-attachments/assets/6d4ef9c5-2773-4a79-aa02-a2254cea84d3" />
+
+>[!Note]
+> Dont forget to push changes to github.
+## Step 5: Version Control & Persistence
+To ensure code changes are backed up and versioned, the following Git workflow was used:
+
+1. *Staging:* `git add .` to prepare changes.
+2. *Commit:* `git commit -m "Update deployment configuration"` to log the change.
+3. *Push:* `git push origin main` to sync the VM environment with the GitHub repository.
 
 **Tear it all down
 When you're ready to tear it all down, simply run docker compose down or hit the trash can on the Docker Desktop Dashboard for the entire app. 
