@@ -48,6 +48,21 @@ Note you can replace user@macbook from the end of the long ssh key string to e.g
 ssh -i .ssh/vm_key cloud-admin@<externalip>
 <img width="1345" height="1600" alt="27 maritesablena@Maritess-KacBook-Air Locat" src="https://github.com/user-attachments/assets/f4d3658a-63ea-4829-b467-d1fa0041229c" />
 
+> [!IMPORTANT]  
+> **Super Important Step – Do this BEFORE installing Docker!**  
+> Your website/container won't appear in the browser if the VM blocks the traffic.
+
+### Open the port on your cloud provider (NOT inside the VM or Docker)
+Go to your cloud dashboard (before or right after creating the VM):
+- **Google Cloud (GCP)** → Click your VM → **Networking** tab → Add or edit firewall rule  
+Add a rule like this (example for a simple website):
+- **Type / Protocol**: TCP  
+- **Port range**: 80  
+  (use 8080, 3000, 5000 etc. if your app uses a different port)  
+- **Source / Anywhere**: 0.0.0.0/0  
+  → This means "allow from the whole internet"  
+  ⚠️ **Only do this for learning/workshop!** In real projects, change it to **your own IP** only for safety.
+  
 
 ### C. Install Docker via GCP VM
 Inside the VM to install Docker from https://docs.docker.com/engine/install/ubuntu/. 
