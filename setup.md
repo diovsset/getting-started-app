@@ -1,7 +1,7 @@
-Prerequisites: 
-A. Sign up to google cloud student
+## Prerequisites: 
+### A. Sign up to google cloud student
 
-B. Create a VM using Google Cloud Platform
+### B. Create a VM using Google Cloud Platform
 Virtual Machine that runs ubuntu 
 
 1. Go to google cloud homepage click the create VM 
@@ -32,9 +32,9 @@ Select to save the OS version settings
 Generate a new ssh key on you machine
 Generate a new ssh key
 
-# Generate a new ssh key
+### Generate a new ssh key
 ssh-keygen -t ed25519 -f .ssh/my_key
-# Print the pubkey (copy to VM ssh keys)
+### Print the pubkey (copy to VM ssh keys)
 cat .ssh/my_key.pub 
 
 Note: Since this is ephemeral external ip can change 
@@ -42,14 +42,14 @@ Note: Since this is ephemeral external ip can change
 After pasting the new ssh key click Create 
 Now connect to the VM from terminal/shell
 
-# Connect to the VM using the key name you set when adding SSH key. 
+### Connect to the VM using the key name you set when adding SSH key. 
 Note you can replace user@macbook from the end of the long ssh key string to e.g cloud-admin
 
 ssh -i .ssh/vm_key cloud-admin@<externalip>
 <img width="1345" height="1600" alt="27 maritesablena@Maritess-KacBook-Air Locat" src="https://github.com/user-attachments/assets/f4d3658a-63ea-4829-b467-d1fa0041229c" />
 
 
-C. Install Docker via GCP VM
+### C. Install Docker via GCP VM
 Inside the VM to install Docker from https://docs.docker.com/engine/install/ubuntu/. 
 
 1. As per notes: Please install using the "install using apt" on your virtual machine.
@@ -65,7 +65,7 @@ Inside the VM to install Docker from https://docs.docker.com/engine/install/ubun
 <img width="1600" height="1356" alt="unknown" src="https://github.com/user-attachments/assets/80ab4a6a-acb0-4e15-9109-82829a4a4767" />
 
 
-Proceed to workshop
+## Proceed to workshop
 https://docs.docker.com/get-started/workshop/02_our_app/
 See my completed docker workshop https://github.com/diovsset/getting-started-app/blob/main/workshop.md
 
