@@ -18,7 +18,7 @@ This repository is a personal fork of the **Docker Getting Started App**, servin
 ### 1. VM Provisioning
 * Configured a Google Compute Engine (GCE) instance named `vmubuntu`.
 * **Access Control:** Established secure remote management via **SSH**.
-* **Documentation:** For specific firewall rules and instance settings, refer to my [GCP VM Setup Guide](./create-vm-gcp.md).
+* **Documentation:** For specific firewall rules and instance settings, refer to my https://github.com/diovsset/getting-started-app/blob/main/setup.md
 
 ### 2. Docker Installation
 * Installed Docker Engine and Docker Compose via the official [Docker repository script](https://get.docker.com/).
