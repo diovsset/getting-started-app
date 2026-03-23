@@ -21,7 +21,12 @@ This repository is a personal fork of the **Docker Getting Started App**, servin
 * **Documentation:** For specific firewall rules and instance settings, refer to my https://github.com/diovsset/getting-started-app/blob/main/setup.md
 
 ### 2. Docker Installation
-* Installed Docker Engine and Docker Compose via the official [Docker repository script](https://get.docker.com/).
+* Installed Docker
+  Now, we are in the VM install Docker from https://docs.docker.com/engine/install/ubuntu/.
+  - [ ] As per notes: Please install using the "install using apt" on your virtual machine.
+  - [ ]  sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - [ ]  sudo usermod -aG docker `whoami`
+  - [ ]  Then logout/login
 * Verified installation using `docker --version` and `docker compose version`.
 
 ### 3. Progress Tracking
