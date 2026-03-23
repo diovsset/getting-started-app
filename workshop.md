@@ -447,6 +447,8 @@ Note: Ensure that the GCP Firewall rules still allow incoming traffic on port 80
 
 <img width="962" height="276" alt="image" src="https://github.com/user-attachments/assets/6d4ef9c5-2773-4a79-aa02-a2254cea84d3" />
 
+Visit the app  http://35.228.250.108:8080
+
 >[!Note]
 > Dont forget to push changes to github.
 ## Step 5: Version Control & Persistence
