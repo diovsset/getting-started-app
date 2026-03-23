@@ -7,5 +7,7 @@ The application is based on the application from the getting started tutorial at
 
 My own documentation for the docker workshop
 
-https://github.com/diovsset/getting-started-app/blob/main/workshop.md
-https://github.com/diovsset/getting-started-app/blob/main/setup.md
+
+- [ ] https://github.com/diovsset/getting-started-app/blob/main/workshop.md
+
+- [ ] https://github.com/diovsset/getting-started-app/blob/main/setup.md
